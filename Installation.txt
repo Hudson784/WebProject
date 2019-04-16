@@ -1,0 +1,3 @@
+pip3 install tweepy 
+sudo -H pip3 install pandas
+sudo apt-get install python3-matplotlib
