@@ -1,6 +1,7 @@
 import json
+import re #Import for regular expressions
 import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt #Import for displaying charts
 
 #Import the necessary methods from tweepy library
 from tweepy.streaming import StreamListener
@@ -18,7 +19,6 @@ ACCESS_SECRET = 'Xtf4rLv3z0N6nHt7yJvYsYPOjZwEC45N3oqRhKo87XVdb'
 CONSUMER_KEY = 'uWrEWX2bhsMtN8hnpd12HjMfl'
 CONSUMER_SECRET = 'bdcvgAI6xRTYvoHJeNf1nkDsl9oDylOkJr1gqkwXEasY3qK1EF'
 
-
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
@@ -29,32 +29,7 @@ class StdOutListener(StreamListener):
     def on_error(self, status):
         print(status)
 
-tweets_data_path = 'twitter_data.txt.'
-
-tweets_data = []
-tweets_file = open(tweets_data_path, "r")
-for line in tweets_file:
-    try:
-        tweet = json.loads(line)
-        tweets_data.append(tweet)
-    except:
-        continue
-
-print(len(tweets_data))
-tweets = pd.DataFrame()
-tweets['text'] = map(lambda tweet: tweet['text'], tweets_data)
-tweets['lang'] = map(lambda tweet: tweet['lang'], tweets_data)
-tweets['country'] = map(lambda tweet: tweet['place']['country'] if tweet['place'] != None else None, tweets_data)
-
-tweets_by_lang = tweets['lang'].value_counts()
-
-fig, ax = plt.subplots()
-ax.tick_params(axis='x', labelsize=15)
-ax.tick_params(axis='y', labelsize=10)
-ax.set_xlabel('Languages', fontsize=15)
-ax.set_ylabel('Number of tweets' , fontsize=15)
-ax.set_title('Top 5 languages', fontsize=15, fontweight='bold')
-tweets_by_lang[:5].plot(ax=ax, kind='bar', color='red')
+#Retrieves what was sent to the twitter_data.txt file 
 
 if __name__ == '__main__':
 
